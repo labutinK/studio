@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studio</title>
-<script defer src="vendor.0a3b05b39cd77c25b217.js"></script><script defer src="main.d9799fa79a3d956d183b.js"></script><link href="css/styles.css" rel="stylesheet"></head>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&load=package.map,package.geoObjects"></script>
+<script defer src="vendor.0a3b05b39cd77c25b217.js"></script><script defer src="main.a317ced655a65154cede.js"></script><link href="css/styles.css" rel="stylesheet"></head>
 <body>
 <header class="header">
     <div class="container">
@@ -1489,10 +1490,7 @@
                     Наши контакты
                 </h2>
                 <div class="contacts-block__content">
-                    <div class="contacts-block__map">
-                        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.598212%2C55.687566&z=15.18" width="560"
-                                height="400" frameborder="1" allowfullscreen="true"
-                                style="position:relative;"></iframe>
+                    <div class="contacts-block__map" id="map-wrapper">
                     </div>
                     <div class="contacts-block__info">
                         <div class="contacts-block__item">
