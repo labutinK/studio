@@ -8,21 +8,98 @@
   \**********************/
 /***/ (function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
 
-/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.mjs");
-/* harmony import */ var swiper_modules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! swiper/modules */ "./node_modules/swiper/modules/index.mjs");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash_seq__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/seq */ "./node_modules/lodash/seq.js");
+/* harmony import */ var lodash_seq__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_seq__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.mjs");
+/* harmony import */ var swiper_modules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! swiper/modules */ "./node_modules/swiper/modules/index.mjs");
 /* harmony import */ var _js_ResponsiveSlider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/ResponsiveSlider */ "./src/js/ResponsiveSlider.js");
+/* harmony import */ var choices_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! choices.js */ "./node_modules/choices.js/public/assets/scripts/choices.js");
+/* harmony import */ var choices_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(choices_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var air_datepicker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! air-datepicker */ "./node_modules/air-datepicker/index.es.js");
 function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
 __webpack_require__(/*! ./scss/styles.scss */ "./src/scss/styles.scss");
 
 
 
 
-swiper__WEBPACK_IMPORTED_MODULE_0__["default"].use([swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Thumbs, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Navigation, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Pagination, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Autoplay, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.FreeMode, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.EffectCards, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.EffectFade, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Controller]);
+// import 'choices.js/public/assets/styles/choices.css';
+
+// Импортируем Choices.js
+
+swiper__WEBPACK_IMPORTED_MODULE_1__["default"].use([swiper_modules__WEBPACK_IMPORTED_MODULE_2__.Thumbs, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.Navigation, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.Pagination, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.Autoplay, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.FreeMode, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.EffectCards, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.EffectFade, swiper_modules__WEBPACK_IMPORTED_MODULE_2__.Controller]);
+
+// Импортируем Air Datepicker
+
 document.addEventListener("DOMContentLoaded", function (event) {
+  // Инициализация Choices.js
+  var choices = new (choices_js__WEBPACK_IMPORTED_MODULE_4___default())('#last-select', {
+    searchEnabled: false // Отключаем поиск, если он не нужен
+  });
+
+  // Функция для проверки доступности даты
+  function isDateBlocked(date) {
+    var today = new Date();
+
+    // Убираем время из today
+    today.setHours(0, 0, 0, 0);
+    var blockedDays = [25, 26, 27, 28, 29, 30]; // Блокируемые дни (с 25 по 30)
+    var specificBlockedDates = [new Date(2024, 10, 22) // Блокируемая дата: 22 ноября 2024 года
+    ];
+
+    // 1. Блокируем даты до сегодняшней
+    if (date < today) return true;
+
+    // 2. Блокируем выходные
+    if (date.getDay() === 0 || date.getDay() === 6) return true;
+
+    // 3. Блокируем даты с 25 по 30 каждого месяца
+    if (blockedDays.includes(date.getDate())) return true;
+
+    // 4. Блокируем 22 ноября 2024 года
+    for (var _i = 0, _specificBlockedDates = specificBlockedDates; _i < _specificBlockedDates.length; _i++) {
+      var blockedDate = _specificBlockedDates[_i];
+      if (date.getDate() === blockedDate.getDate() && date.getMonth() === blockedDate.getMonth() && date.getFullYear() === blockedDate.getFullYear()) {
+        return true;
+      }
+    }
+    return false; // Дата доступна
+  }
+
+  // Функция для нахождения первой доступной даты
+  function getFirstAvailableDate() {
+    var today = new Date();
+    for (var i = 0; i < 30; i++) {
+      // Проверяем следующие 30 дней
+      var checkDate = new Date(today);
+      checkDate.setDate(today.getDate() + i);
+      if (!isDateBlocked(checkDate)) {
+        return checkDate; // Возвращаем первую доступную дату
+      }
+    }
+    return null; // Если нет доступных дат
+  }
+
+  // Инициализация Air Datepicker
+  var firstAvailableDate = getFirstAvailableDate();
+  var datepicker;
+  datepicker = new air_datepicker__WEBPACK_IMPORTED_MODULE_5__["default"]('#calendar', {
+    inline: true,
+    // Показываем календарь как блок
+    selectedDates: firstAvailableDate ? [firstAvailableDate] : [],
+    // Устанавливаем первую доступную дату
+    onRenderCell: function onRenderCell(_ref) {
+      var date = _ref.date,
+        cellType = _ref.cellType;
+      if (isDateBlocked(date)) {
+        return {
+          disabled: true
+        };
+      }
+    }
+  });
   var welcomeSlider = document.querySelector('.welcome-slider__swiper');
   if (welcomeSlider) {
     // Функция для анимации слайдов
@@ -44,11 +121,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
           _this.allowSlidePrev = true;
         }, 800);
       }, 600);
-    }; // Навешиваем логику на кнопки навигации
+    };
+    // Флаг для определения ручного клика
+    var stopCustomAutoPlay = function stopCustomAutoPlay() {
+      clearInterval(customAutoPlay);
+      customAutoPlay = null;
+    };
     var navigation = document.querySelector('.welcome-slider__navigation');
     var nextButton = document.querySelector('.welcome-slider__next');
     var prevButton = document.querySelector('.welcome-slider__prev');
-    var slider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".welcome-slider .swiper", {
+    var slider = new swiper__WEBPACK_IMPORTED_MODULE_1__["default"](".welcome-slider .swiper", {
       slidesPerView: 1,
       effect: "fade",
       loop: true,
@@ -65,27 +147,39 @@ document.addEventListener("DOMContentLoaded", function (event) {
           if (window.innerWidth >= 576) {
             handleSlideAnimation.call(this, swiper);
           }
+        },
+        touchMove: function touchMove(swiper) {
+          stopCustomAutoPlay();
         }
       }
     });
+    var isManualClick = false;
+    var customAutoPlay = setInterval(function () {
+      nextButton.click();
+    }, 2500);
+
+    // Навешиваем логику на кнопки навигации
     nextButton.addEventListener('click', function (e) {
-      if (!slider.allowSlideNext) return; // Блокировка навигации во время анимации
+      if (isManualClick) {
+        stopCustomAutoPlay(); // Останавливаем автопрокрутку
+      }
+      if (!slider.allowSlideNext) return;
       handleSlideAnimation.call(slider, slider);
+    });
+
+    // Устанавливаем флаг при ручном клике
+    nextButton.addEventListener('mousedown', function () {
+      isManualClick = true; // Устанавливаем флаг ручного клика
+    });
+    prevButton.addEventListener('mousedown', function () {
+      isManualClick = true; // Устанавливаем флаг ручного клика
     });
     prevButton.addEventListener('click', function (e) {
-      if (!slider.allowSlidePrev) return; // Блокировка навигации во время анимации
-      handleSlideAnimation.call(slider, slider);
-    });
-  }
-  var header = document.querySelector('header'); // Находим элемент хедер
-  if (header) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 100) {
-        // Если прокручено более чем на 100px
-        header.classList.add('scrolled'); // Добавляем класс
-      } else {
-        header.classList.remove('scrolled'); // Убираем класс
+      if (isManualClick) {
+        stopCustomAutoPlay(); // Останавливаем автопрокрутку
       }
+      if (!slider.allowSlidePrev) return;
+      handleSlideAnimation.call(slider, slider);
     });
   }
   new _js_ResponsiveSlider__WEBPACK_IMPORTED_MODULE_3__.ResponsiveSlider('.interiors').initSwipers({
@@ -118,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   }, true);
-  new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".video-slider__slider.swiper", {
+  new swiper__WEBPACK_IMPORTED_MODULE_1__["default"](".video-slider__slider.swiper", {
     slidesPerView: 1,
     navigation: {
       nextEl: '.video-slider__next',
@@ -135,10 +229,40 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   });
-  function scrollToElementWithHeaderOffset(element, header) {
+  var swiperInstances = []; // Массив для хранения экземпляров Swiper
+  var initTabSliders = function initTabSliders() {
+    var screenWidth = window.innerWidth;
+    var swiperElements = document.querySelectorAll('.accordeon-block__slider');
+    if (screenWidth < 992) {
+      swiperElements.forEach(function (element, index) {
+        if (!swiperInstances[index]) {
+          swiperInstances[index] = new swiper__WEBPACK_IMPORTED_MODULE_1__["default"](element, {
+            slidesPerView: "auto",
+            spaceBetween: 20
+          });
+        }
+      });
+    } else {
+      // Если экран больше 992px, уничтожаем все Swiper'ы
+      swiperInstances.forEach(function (swiper, index) {
+        if (swiper) {
+          swiper.destroy(true, true); // Уничтожаем Swiper
+          swiperInstances[index] = null; // Очищаем экземпляр
+        }
+      });
+    }
+  };
+  var tabSliders = document.querySelectorAll('.accordeon-block__slider');
+  if (tabSliders.length > 0) {
+    initTabSliders();
+    window.addEventListener('resize', function () {
+      initTabSliders();
+    });
+  }
+  function scrollToElementWithHeaderOffset(element, additionalHeight) {
     var headerHeight = document.querySelector('header').offsetHeight; // Высота хедера
     var elementPosition = element.getBoundingClientRect().top; // Позиция элемента относительно верхней границы окна
-    var offsetPosition = elementPosition - headerHeight; // Позиция с учетом высоты хедера
+    var offsetPosition = elementPosition - headerHeight - additionalHeight; // Позиция с учетом высоты хедера
 
     // Прокручиваем страницу на нужное расстояние
     window.scrollBy({
@@ -157,15 +281,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
         var _loop = function _loop() {
           var btn = _step.value;
           btn.addEventListener('click', function () {
-            var id = parseInt(btn.getAttribute('data-tab'));
+            var id = btn.getAttribute('data-tab');
             var _iterator2 = _createForOfIteratorHelper(blocks),
               _step2;
             try {
               for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
                 var block = _step2.value;
-                if (parseInt(block.getAttribute('data-tab-block')) === id) {
+                if (block.getAttribute('data-tab-block') === id) {
                   block.setAttribute('data-active', '');
-                  scrollToElementWithHeaderOffset(block);
+                  scrollToElementWithHeaderOffset(block, 150);
                 } else {
                   block.removeAttribute('data-active');
                 }
@@ -181,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             try {
               for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
                 var otherBtn = _step3.value;
-                if (parseInt(otherBtn.getAttribute('data-tab')) !== id) {
+                if (otherBtn.getAttribute('data-tab') !== id) {
                   otherBtn.removeAttribute('data-active');
                 }
               }
@@ -201,31 +325,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         _iterator.f();
       }
     });
-  }
-  var doProportionIcon = function doProportionIcon(icons) {
-    var _iterator4 = _createForOfIteratorHelper(icons),
-      _step4;
-    try {
-      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-        var icon = _step4.value;
-        var widthAttr = icon.getAttribute('width');
-        var widthReal = icon.clientWidth;
-        var heightAttr = icon.getAttribute('height');
-        var heightReal = widthReal / widthAttr * heightAttr;
-        icon.style.height = "".concat(heightReal, "px");
-      }
-    } catch (err) {
-      _iterator4.e(err);
-    } finally {
-      _iterator4.f();
-    }
-  };
-  var icons = document.querySelectorAll('.icon-pr');
-  if (icons.length) {
-    doProportionIcon(icons);
-    window.addEventListener('resize', lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default()(function () {
-      doProportionIcon(icons);
-    }, 300));
   }
 });
 
@@ -380,13 +479,16 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -482,6 +584,15 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		};
 /******/ 	}();
 /******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	}();
+/******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	!function() {
 /******/ 		// no baseURI
@@ -547,4 +658,4 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=main.96f52569d6632605ac6c.js.map
+//# sourceMappingURL=main.d9799fa79a3d956d183b.js.map
