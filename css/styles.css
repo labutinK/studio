@@ -4358,6 +4358,7 @@ main {
       display: block; }
 
 .contacts-block {
+  position: relative;
   padding: 50px 0 160px; }
   @media (max-width: 1240px) {
     .contacts-block {
@@ -4372,6 +4373,18 @@ main {
     .contacts-block {
       padding-top: 20px;
       padding-bottom: 60px; } }
+  .contacts-block__line {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    max-width: calc(50vw - 700px);
+    overflow: hidden; }
+    @media (max-width: 1240px) {
+      .contacts-block__line {
+        padding-top: 170px; } }
+    @media (max-width: 991.92px) {
+      .contacts-block__line {
+        display: none; } }
   .contacts-block__title {
     margin-bottom: 48px; }
     @media (max-width: 991.92px) {
